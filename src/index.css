@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+/* ── Identité visuelle : tout part de ces variables ───────── */
+@theme {
+  --font-display: "Bagel Fat One", "Arial Rounded MT Bold", ui-rounded, system-ui, sans-serif;
+  --font-sans: "Outfit", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-forest: #0b3b2e;
+  --color-forest-dark: #072a21;
+  --color-pink: #c4165a;
+  --color-pink-dark: #a01049;
+  --color-mango: #ffb627;
+  --color-teal: #2e9e8f;
+  --color-paper: #f4f8f2;
+  --color-ink: #10231d;
+  --color-muted: #4b5f57;
+  --color-leaf: #1f7a4f;
+  --color-wa: #0e7a41;
+  --color-wa-dark: #0a6435;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, .font-display {
+    font-weight: 400; /* Bagel Fat One n'a qu'une graisse : on évite le faux gras */
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-pink);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  .on-dark :focus-visible {
+    outline-color: var(--color-mango);
+  }
+}
+
+/* ── La mosaïque de Jacmel : bande de carreaux, signature du site ── */
+.mosaic {
+  background-color: var(--color-forest);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='32' viewBox='0 0 64 32'%3E%3Crect x='1' y='1' width='14' height='14' rx='2' fill='%23C4165A'/%3E%3Crect x='17' y='1' width='14' height='14' rx='2' fill='%23FFB627'/%3E%3Crect x='33' y='1' width='14' height='14' rx='2' fill='%232E9E8F'/%3E%3Crect x='49' y='1' width='14' height='14' rx='2' fill='%23F4F8F2'/%3E%3Crect x='-7' y='17' width='14' height='14' rx='2' fill='%232E9E8F'/%3E%3Crect x='9' y='17' width='14' height='14' rx='2' fill='%23F4F8F2'/%3E%3Crect x='25' y='17' width='14' height='14' rx='2' fill='%23C4165A'/%3E%3Crect x='41' y='17' width='14' height='14' rx='2' fill='%23FFB627'/%3E%3Crect x='57' y='17' width='14' height='14' rx='2' fill='%232E9E8F'/%3E%3C/svg%3E");
+  background-size: 64px 32px;
+  background-repeat: repeat-x;
+  height: 32px;
+}
+
+/* ── Animations ─────────────────────────────────────────── */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(1.75rem); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes pop {
+  from { opacity: 0; transform: translateY(0.75rem) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes slide-in {
+  from { transform: translateX(100%); }
+  to   { transform: none; }
+}
+@keyframes slow-spin {
+  to { transform: rotate(360deg); }
+}
+.rise { animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.spin-slow { animation: slow-spin 90s linear infinite; }
+dialog[open] { animation: pop 0.22s ease-out; }
+dialog.sheet[open] { animation: slide-in 0.28s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.toast { animation: pop 0.2s ease-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rise, .spin-slow, dialog[open], dialog.sheet[open], .toast { animation: none; }
+  * { transition-duration: 0.01ms !important; }
+}
